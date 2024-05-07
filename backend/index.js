@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 // Database Connection With MongoDB
-mongoose.connect("mongodb+srv://aromalkprakashofficial:elliotalderson1324@cluster0.7u3be37.mongodb.net/e-commerce")
+mongoose.connect("mongodb+srv://aromalkprakashofficial:elliotalderson1324@cluster0.y0ldf6x.mongodb.net/e-commerce")
   .then(() => console.log("Connected to MongoDB"))
   .catch(error => console.error("MongoDB connection error:", error));
 
@@ -79,7 +79,7 @@ const Product = mongoose.model("Product",{
 app.post('/addproduct',async (req,res)=>{
     let products = await Product.find({});
     let id;
-    if(product.length>0)
+    if(products.length>0)
         {
             let last_product_array = products.slice(-1);
             let last_product = last_product_array[0];
@@ -90,7 +90,6 @@ app.post('/addproduct',async (req,res)=>{
         }
     const product = new Product({
         id:id,
-        id:req.body.id,
         name:req.body.name,
         image:req.body.image,
         category:req.body.category,
