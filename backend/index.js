@@ -6,6 +6,8 @@ const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
 const { type } = require("os");
+const jwt = require('jsonwebtoken');
+
 
 app.use(express.json());
 app.use(cors());
@@ -61,6 +63,43 @@ const Users = mongoose.model('Users',{
         default:Date.now,
     }
 })
+
+
+// Creating Endpoint for registering the user
+
+app.post('/signup',async (req,res)=>{
+
+    let check = await Users.findOne({email:req.body.email});
+    if (check) {
+        return res.status(400).json({success:false,error:"existing user found with same email"})
+    }
+    let cart = {};
+    for (let i = 0; i < 300; i++) {
+        cart[i] =0;
+    }
+    const user = new Users({
+        name: req.body.username,
+        email:req.body.email,
+        password:req.body.email,
+        cartData: cart,
+    })
+
+    await user.save();
+
+    const data = {
+        user:{
+            id:user.id
+        }
+    }
+
+    const token = jwt.sign(data,'secret_ecom');
+    res.json({ "success": true,token })
+
+})
+
+
+
+
 
 // Schema for Creating Products
 
