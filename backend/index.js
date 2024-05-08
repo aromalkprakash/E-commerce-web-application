@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
+const { type } = require("os");
 
 app.use(express.json());
 app.use(cors());
@@ -38,6 +39,28 @@ app.post("/upload", upload.single('product'), (req, res) => {
   })
 })
 
+
+// Schema creating for User model
+
+const Users = mongoose.model('Users',{
+    name:{
+        type: String,
+    },
+    email:{
+        type:String,
+        unique:true,
+    },
+    password:{
+        type:String,
+    },
+    cartData:{
+        type:Object,
+    },
+    date:{
+        type:Date,
+        default:Date.now,
+    }
+})
 
 // Schema for Creating Products
 
