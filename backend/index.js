@@ -80,7 +80,7 @@ app.post('/signup',async (req,res)=>{
     const user = new Users({
         name: req.body.username,
         email:req.body.email,
-        password:req.body.email,
+        password:req.body.password,
         cartData: cart,
     })
 
@@ -97,8 +97,29 @@ app.post('/signup',async (req,res)=>{
 
 })
 
+// creating endpoint for user login
 
-
+app.post('/login',async (req,res)=>{
+    let user = await Users.findOne({email:req.body.email});
+    if (user) {
+        const passCompare = req.body.password === user.password;
+        if (passCompare) {
+            const data = {
+                user:{
+                    id:user.id
+                }
+            }
+            const token = jwt.sign(data,'secret_ecom');
+            res.json({success:true,token});
+        }
+        else{
+            res.json({success:false,error:'Wrong password'});
+        }
+    }
+    else{
+        res.json({succes:false,errors:"Wrong Email Id"})
+    }
+})
 
 
 // Schema for Creating Products
