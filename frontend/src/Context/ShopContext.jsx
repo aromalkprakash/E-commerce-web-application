@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 export const ShopContext = createContext(null);
 
@@ -24,8 +24,27 @@ const ShopContextProvider = (props) => {
 
     const addToCart = (itemId) => {
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-        console.log(cartItems);
+        try {
+            const authToken = localStorage.getItem('auth-token');
+            if (authToken) {
+                fetch('http://localhost:4000/addtocart', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/form-data',
+                        'auth-token': authToken,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ "itemId": itemId }),
+                })
+                .then((response) => response.json())
+                .then((data) => console.log(data))
+                .catch((error) => console.error('Error adding item to cart:', error));
+            }
+        } catch (error) {
+            console.error('Error accessing localStorage:', error);
+        }
     }
+    
 
     const removeFromCart = (itemId) => {
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));

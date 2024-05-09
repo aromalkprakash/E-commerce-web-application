@@ -7,6 +7,7 @@ const path = require("path");
 const cors = require("cors");
 const { type } = require("os");
 const jwt = require('jsonwebtoken');
+const { log } = require("console");
 
 
 app.use(express.json());
@@ -137,7 +138,11 @@ app.get('/popularinwomen',async (req,res)=>{
     res.send(popular_in_women)
 })
 
+// creating endpoint for adding products in cartdata
 
+app.post('/addtocart', async (req,res)=>{
+    console.log(req.body);
+})
 
 // Schema for Creating Products
 
