@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-height: 740px; 
+    max-height:1000px; 
     padding: 10px 50px;
     margin: 30px;
     border-radius: 6px;
@@ -58,4 +58,7 @@
 
 .listproduct-remove-icon img:hover {
     filter: brightness(0.8); 
+}
+.oldprice{
+    text-decoration: line-through;
 }
